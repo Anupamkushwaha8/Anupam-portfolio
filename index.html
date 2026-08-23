@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anupam Kushwaha — Aspiring Software Developer</title>
+<meta name="description" content="Anupam Kushwaha — 3rd-year B.Tech CSE (AI & ML) student and aspiring software developer."><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo">AK<em>.</em>DEV</a>
+    <div class="orbital-region" id="orbitalRegion">
+      <svg class="orbit-progress" viewBox="0 0 270 270" aria-hidden="true">
+        <circle class="op-track" cx="135" cy="135" r="128"></circle>
+        <circle class="op-fill" id="orbitProgressFill" cx="135" cy="135" r="128"></circle>
+      </svg>
+      <div class="orbit-center-fade"></div>
+      <div class="orbit-wrapper" id="orbitWrapper"></div>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
+      <a href="resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost" id="resumeBtn" style="padding:10px 18px; box-shadow:none;">Resume</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<main class="wrap">
+
+  <section class="hero" id="home">
+    <div class="hero-grid">
+      <div>
+        <div class="status-box"><span class="sq"></span> AVAILABLE FOR OPPORTUNITIES</div>
+        <div class="hero-hi">Hi, I'm <em id="heroName">Your Name</em></div>
+        <h1>Building clean, reliable<br>software for the <span class="hl">real world.</span></h1>
+        <p class="lead">3rd-year B.Tech CSE (AI &amp; ML) student and aspiring software developer, building with HTML, CSS, JavaScript, Java and Python.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-ghost">Let's Connect</a>
+        </div>
+        <div class="hero-links">
+          <a href="resume.pdf" target="_blank" rel="noopener" id="downloadResume">↓ Download Resume</a>
+          <a href="https://github.com/Anupamkushwaha8" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/anupam-kushwaha" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-photo-frame" id="heroPhotoFrame">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <img id="heroPhoto" src="photo.jpg" alt="Photo of Anupam Kushwaha" onerror="this.remove(); document.getElementById('heroPhotoFrame').classList.add('no-photo');">
+          <div class="placeholder">+ your photo</div>
+        </div>
+        <div class="spec-sheet">
+          <div class="spec-head"><span>SYSTEM.SPEC</span><span>v2026</span></div>
+          <div class="spec-row"><span class="k">Role</span><span class="v">CSE (AI &amp; ML) Undergrad</span></div>
+          <div class="spec-row"><span class="k">Stack</span><span class="v">HTML · CSS · JavaScript</span></div>
+          <div class="spec-row"><span class="k">Also speaks</span><span class="v">Java · Python</span></div>
+          <div class="spec-row"><span class="k">Based in</span><span class="v">Lucknow, Uttar Pradesh</span></div>
+          <div class="spec-row"><span class="k">Status</span><span class="v">Open to SDE roles</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head reveal">
+      <div class="tag-label">About</div>
+      <h2 class="section-title">Engineer first, learner always.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-frame reveal" id="aboutFrame"><span class="corner tl"></span><span class="corner br"></span><img id="aboutPhoto" src="photo.jpg" alt="Photo of Anupam Kushwaha" onerror="this.remove();"><div class="initials">AK</div></div>
+      <div class="about-text">
+        <div class="reveal">
+          <p>I'm a 3rd-year B.Tech student in Computer Science &amp; Engineering (AI &amp; ML), with hands-on experience in Java, Python, C, HTML and CSS. I like taking an interface from a blank page to something people actually enjoy using — responsive, fast, and free of rough edges.</p>
+          <p>I'm looking for an entry-level Software Developer role where I can put strong problem-solving skills and real project experience to work. Outside of coursework, I stay sharp by solving Data Structures &amp; Algorithms problems on LeetCode and keeping every project's source public on GitHub. When I'm not at the keyboard, fitness keeps me focused and disciplined.</p>
+        </div>
+        <div class="pill-row reveal">
+          <span class="pill">B.Tech CSE (AI/ML)</span>
+          <span class="pill">Problem Solver</span>
+          <span class="pill">Frontend Basics</span>
+          <span class="pill">Open to SDE roles</span>
+        </div>
+        <div class="stat-grid reveal">
+          <div class="stat"><div class="num">2028</div><div class="label">Expected Graduation</div></div>
+          <div class="stat"><div class="num">2+</div><div class="label">Projects Built</div></div>
+          <div class="stat"><div class="num">5</div><div class="label">Languages &amp; Tools</div></div>
+          <div class="stat"><div class="num">—</div><div class="label">Continuous Learning</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head reveal">
+      <div class="tag-label">Technologies</div>
+      <h2 class="section-title">Technologies I work with.</h2>
+    </div>
+    <div class="skill-cats reveal" id="skillCats"></div>
+  </section>
+
+  <section id="dsa">
+    <div class="section-head reveal">
+      <div class="tag-label">Problem Solving</div>
+      <h2 class="section-title">Turning complex problems into efficient solutions.</h2>
+    </div>
+    <p class="reveal" style="color:var(--ink-dim); font-size:15px; max-width:560px; margin-bottom:32px;">I stay sharp by working through Data Structures &amp; Algorithms problems on LeetCode, and keep every project's source public on GitHub.</p>
+    <div class="dsa-actions reveal">
+      <a href="https://github.com/Anupamkushwaha8" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      <a href="https://leetcode.com/u/Anupamkushwaha8" target="_blank" rel="noopener" class="btn btn-ghost">LeetCode</a>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head reveal proj-head-row">
+      <div>
+        <div class="tag-label">Selected Work</div>
+        <h2 class="section-title">Featured Projects</h2>
+      </div>
+      <button type="button" class="btn btn-ghost add-project-btn" id="addProjectBtn">+ Add Project</button>
+    </div>
+    <div class="project-grid reveal" id="projectGrid"></div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head reveal">
+      <div class="tag-label">Journey</div>
+      <h2 class="section-title">Learning &amp; building, in order.</h2>
+    </div>
+    <div class="timeline reveal" id="timeline"></div>
+  </section>
+
+  <section id="github">
+    <div class="gh-panel reveal">
+      <div class="gh-top">
+        <div>
+          <div class="tag-label" style="margin-bottom:8px;">Developer Activity</div>
+          <h3>GitHub Overview</h3>
+        </div>
+        <a href="https://github.com/Anupamkushwaha8" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub</a>
+      </div>
+      <div class="gh-grid">
+        <div class="gh-stat"><div class="n">—</div><div class="l">Repositories</div></div>
+        <div class="gh-stat"><div class="n">—</div><div class="l">Stars</div></div>
+        <div class="gh-stat"><div class="n">—</div><div class="l">Commits (yr)</div></div>
+        <div class="gh-stat"><div class="n">—</div><div class="l">Top Language</div></div>
+      </div>
+      <div class="contrib-graph" id="contribGraph"></div>
+      <p style="font-size:11px; color:var(--ink-faint); margin-top:14px; font-family:var(--font-mono);">Connect the GitHub API to populate live stats — placeholders shown.</p>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="section-head reveal">
+      <div class="tag-label">Achievements</div>
+      <h2 class="section-title">Milestones along the way.</h2>
+    </div>
+    <div class="ach-grid reveal" id="achGrid"></div>
+  </section>
+
+  <section>
+    <div class="cta reveal">
+      <h2>Let's build something meaningful.</h2>
+      <p>I'm always interested in challenging problems, innovative products, and opportunities to grow as a software engineer.</p>
+      <div class="cta-actions">
+        <a href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary">View Resume</a>
+        <a href="resume.pdf" download class="btn btn-ghost">Download Resume</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head reveal">
+      <div class="tag-label">Contact</div>
+      <h2 class="section-title">Let's Connect</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-links reveal">
+        <a href="mailto:anupamkushwahaa2m@gmail.com">Email</a>
+        <a href="tel:+917307735528">Phone</a>
+        <a href="https://github.com/Anupamkushwaha8" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/anupam-kushwaha" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://leetcode.com/u/Anupamkushwaha8" target="_blank" rel="noopener">LeetCode</a>
+      </div>
+      <form class="reveal" id="contactForm" novalidate>
+        <div class="field" id="f-name">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name">
+          <div class="err">Enter your name.</div>
+        </div>
+        <div class="field" id="f-email">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email">
+          <div class="err">Enter a valid email address.</div>
+        </div>
+        <div class="field" id="f-message">
+          <label for="message">Message</label>
+          <textarea id="message" name="message"></textarea>
+          <div class="err">Write a short message.</div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn">
+          <span class="spinner"></span><span class="label">Send Message</span>
+        </button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-overlay" id="projectModalOverlay">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+    <div class="modal-head">
+      <span id="projectModalTitle">Add an External Project</span>
+      <button type="button" class="modal-close" id="projectModalClose" aria-label="Close">✕</button>
+    </div>
+    <form id="addProjectForm" class="modal-form" novalidate>
+      <div class="field" id="f-proj-name">
+        <label for="proj-name">Project Name</label>
+        <input id="proj-name" name="name" type="text" autocomplete="off">
+        <div class="err">Give your project a name.</div>
+      </div>
+      <div class="field" id="f-proj-desc">
+        <label for="proj-desc">Description</label>
+        <textarea id="proj-desc" name="desc"></textarea>
+        <div class="err">Add a short description.</div>
+      </div>
+      <div class="field">
+        <label for="proj-tech">Tech Used <span class="hint">(comma-separated)</span></label>
+        <input id="proj-tech" name="tech" type="text" placeholder="e.g. React, Node.js, MongoDB" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="proj-features">Key Features <span class="hint">(comma-separated)</span></label>
+        <input id="proj-features" name="features" type="text" placeholder="e.g. Auth, Realtime chat" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="proj-github">GitHub URL <span class="hint">(optional)</span></label>
+          <input id="proj-github" name="github" type="url" placeholder="https://github.com/..." autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="proj-demo">Live Demo URL <span class="hint">(optional)</span></label>
+          <input id="proj-demo" name="demo" type="url" placeholder="https://..." autocomplete="off">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="projectModalCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Project</button>
+      </div>
+      <div class="form-msg" id="projectFormMsg"></div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="fl" id="footerName">Your Name © 2026</div>
+    <div class="footer-social">
+      <a href="https://github.com/Anupamkushwaha8" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/anupam-kushwaha" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://leetcode.com/u/Anupamkushwaha8" target="_blank" rel="noopener">LeetCode</a>
+    </div>
+    <a href="#home" class="back-top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
