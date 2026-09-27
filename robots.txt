@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anupamkushwaha8.github.io/sitemap.xml
