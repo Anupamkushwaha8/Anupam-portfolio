@@ -53,8 +53,31 @@ const DATA = {
 };
 
 document.getElementById('heroName').textContent = DATA.name;
-document.getElementById('footerName').textContent = `${DATA.name} © 2026`;
-document.querySelector('.about-frame .initials').textContent = DATA.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+document.getElementById('footerName').textContent = `${DATA.name} © ${new Date().getFullYear()}`;
+
+/* Photo fallback: if photo.jpg is missing, drop back to the "+ your photo"
+   placeholder instead of a broken-image icon (previously handled with an
+   inline onerror=""). The Hero photo is the site's only profile photo. */
+const heroPhoto = document.getElementById('heroPhoto');
+if (heroPhoto){
+  heroPhoto.addEventListener('error', () => {
+    heroPhoto.remove();
+    document.getElementById('heroPhotoFrame').classList.add('no-photo');
+  }, { once:true });
+}
+
+/* Small helper so any user-supplied text (external project fields) can never
+   be interpreted as HTML when injected via innerHTML. */
+function escapeHtml(str){
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+/* Only allow http/https links through to href attributes (blocks javascript: etc). */
+function safeUrl(url){
+  const u = String(url ?? '').trim();
+  return /^https?:\/\//i.test(u) ? u : '';
+}
 
 const orbitWrapper = document.getElementById('orbitWrapper');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -108,19 +131,24 @@ function renderProjects(){
   all.forEach((p, i) => {
     const div = document.createElement('div');
     div.className = `project-card ${p.size || 'small'}${p.userAdded ? ' user-added' : ''}`;
+    // User-added values are untrusted (they came through the "Add Project" form),
+    // so every field is escaped and links are restricted to http/https before
+    // being placed in innerHTML — prevents stored self-XSS via localStorage.
+    const githubUrl = safeUrl(p.github);
+    const demoUrl = safeUrl(p.demo);
     const links = [
-      p.github ? `<a href="${p.github}" target="_blank" rel="noopener">GitHub</a>` : '',
-      p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener">Live Demo</a>` : ''
+      githubUrl ? `<a href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer">GitHub</a>` : '',
+      demoUrl ? `<a href="${escapeHtml(demoUrl)}" target="_blank" rel="noopener noreferrer">Live Demo</a>` : ''
     ].join('');
-    const removeBtn = p.userAdded ? `<button type="button" class="remove-project" data-uid="${p.uid}" title="Remove project">✕</button>` : '';
+    const removeBtn = p.userAdded ? `<button type="button" class="remove-project" data-uid="${escapeHtml(p.uid)}" title="Remove project">✕</button>` : '';
     div.innerHTML = `
       ${removeBtn}
-      <div class="project-index">${p.index || String(i+1).padStart(2,'0')}</div>
+      <div class="project-index">${escapeHtml(p.index || String(i+1).padStart(2,'0'))}</div>
       <div class="project-body">
-        <div class="pname">${p.name}</div>
-        <div class="pdesc">${p.desc}</div>
-        <div class="tag-row">${p.tech.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        <div class="feat-row">${p.features.map(f=>`<span>${f}</span>`).join('')}</div>
+        <div class="pname">${escapeHtml(p.name)}</div>
+        <div class="pdesc">${escapeHtml(p.desc)}</div>
+        <div class="tag-row">${p.tech.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        <div class="feat-row">${p.features.map(f=>`<span>${escapeHtml(f)}</span>`).join('')}</div>
         <div class="proj-links">${links}</div>
       </div>`;
     projectGrid.appendChild(div);
@@ -147,15 +175,18 @@ const projectFormMsg = document.getElementById('projectFormMsg');
 
 function openProjectModal(){
   projectModalOverlay.classList.add('open');
+  projectModalOverlay.removeAttribute('inert');
   document.body.style.overflow = 'hidden';
   document.getElementById('proj-name').focus();
 }
 function closeProjectModal(){
   projectModalOverlay.classList.remove('open');
+  projectModalOverlay.setAttribute('inert', '');
   document.body.style.overflow = '';
   addProjectForm.reset();
   projectFormMsg.className = 'form-msg';
   ['f-proj-name','f-proj-desc'].forEach(id => document.getElementById(id).classList.remove('invalid'));
+  addProjectBtn.focus();
 }
 
 addProjectBtn.addEventListener('click', openProjectModal);
@@ -222,11 +253,13 @@ DATA.achievements.forEach(a => {
   achGrid.appendChild(div);
 });
 
+/* Decorative placeholder grid only — deliberately NOT randomised, since random
+   "active" cells would look like real commit data that doesn't exist yet.
+   Swap this loop out once the GitHub API is wired up to the stats above. */
 const contribGraph = document.getElementById('contribGraph');
 for (let i=0;i<7*26;i++){
   const c = document.createElement('div');
   c.className = 'cell';
-  if (Math.random() > .88) c.style.background = 'var(--mustard)';
   contribGraph.appendChild(c);
 }
 
@@ -241,6 +274,7 @@ const LAPS = 2.2;
 
 let current = 0;
 let targetR = 0;
+let animating = false;
 
 function scrollProgress(){
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -252,20 +286,37 @@ function onScroll(){
   targetR = p * 360 * LAPS;
   orbitProgressFill.style.strokeDashoffset = (RING_CIRC * (1 - p)).toFixed(1);
   updateNavbarState();
+  startTick();
 }
 window.addEventListener('scroll', onScroll, {passive:true});
 onScroll();
 
+// Runs the orbit-rotation easing only while it still has visible work to do,
+// instead of looping requestAnimationFrame forever (which previously burned
+// a frame of CPU/battery every tick, even at rest with nothing left to animate).
 function tick(){
   if (!reduceMotion){
     current += (targetR - current) * 0.08;
+    if (Math.abs(targetR - current) < 0.02){
+      current = targetR;
+      orbitWrapper.style.setProperty('--r', current.toFixed(3));
+      animating = false;
+      return;
+    }
     orbitWrapper.style.setProperty('--r', current.toFixed(3));
   } else {
     orbitWrapper.style.setProperty('--r', targetR.toFixed(3));
+    animating = false;
+    return;
   }
   requestAnimationFrame(tick);
 }
-tick();
+function startTick(){
+  if (animating) return;
+  animating = true;
+  requestAnimationFrame(tick);
+}
+startTick();
 
 const sectionIds = DATA.navItems.map(i=>i.id);
 const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
@@ -283,18 +334,19 @@ const io = new IntersectionObserver((entries)=>{
 sections.forEach(s=>io.observe(s));
 
 const hamburger = document.getElementById('hamburger');
-hamburger.addEventListener('click', ()=>{
-  const open = mobileMenu.classList.toggle('open');
+function setMobileMenuOpen(open){
+  mobileMenu.classList.toggle('open', open);
   hamburger.classList.toggle('open', open);
   hamburger.setAttribute('aria-expanded', open);
+  if (open) mobileMenu.removeAttribute('inert'); else mobileMenu.setAttribute('inert', '');
   document.body.style.overflow = open ? 'hidden' : '';
-});
+}
+hamburger.addEventListener('click', ()=> setMobileMenuOpen(!mobileMenu.classList.contains('open')));
 mobileMenu.querySelectorAll('a').forEach(a=>{
-  a.addEventListener('click', ()=>{
-    mobileMenu.classList.remove('open');
-    hamburger.classList.remove('open');
-    document.body.style.overflow = '';
-  });
+  a.addEventListener('click', ()=> setMobileMenuOpen(false));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && mobileMenu.classList.contains('open')){ setMobileMenuOpen(false); hamburger.focus(); }
 });
 
 const revealItems = document.querySelectorAll('.reveal');
@@ -304,10 +356,37 @@ const revealIo = new IntersectionObserver((entries)=>{
 revealItems.forEach(el=>revealIo.observe(el));
 
 
-document.getElementById('themeToggle').addEventListener('click', function(){
-  this.textContent = this.textContent === '◐' ? '◑' : '◐';
+/* Theme toggle — previously only swapped the button glyph and changed nothing
+   visually. Now flips a data-theme attribute that style.css has real light
+   and dark variable sets for, and remembers the choice. */
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  themeToggle.textContent = theme === 'light' ? '◑' : '◐';
+  themeToggle.setAttribute('aria-pressed', theme === 'light');
+  themeToggle.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+  const color = theme === 'light' ? '#F7F4EA' : '#161409';
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+    m.removeAttribute('media');
+    m.setAttribute('content', color);
+  });
+  try { localStorage.setItem('ak_theme', theme); } catch (e) {}
+}
+applyTheme(document.documentElement.getAttribute('data-theme') || 'dark');
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  applyTheme(next);
 });
 
+/* Contact form — there is no backend/API wired up to actually receive these
+   submissions. The previous version faked a 1.1s "sending" spinner and then
+   claimed the message had been received, when nothing was ever sent anywhere.
+   Rather than fabricate that success state, this opens the visitor's own
+   email client with the message pre-filled, which genuinely delivers it.
+   Swap CONTACT_EMAIL_ENDPOINT for a real form backend (Formspree, EmailJS,
+   a small serverless function, etc.) later and this can go back to an
+   in-page async submit. */
+const CONTACT_EMAIL = 'anupamkushwahaa2m@gmail.com';
 const form = document.getElementById('contactForm');
 const formMsg = document.getElementById('formMsg');
 form.addEventListener('submit', function(e){
@@ -324,12 +403,17 @@ form.addEventListener('submit', function(e){
   formMsg.className = 'form-msg';
   if (!valid){ formMsg.textContent = 'Please fix the highlighted fields.'; formMsg.classList.add('error'); return; }
 
+  const subject = `Portfolio contact from ${name.value.trim()}`;
+  const body = `${message.value.trim()}\n\n— ${name.value.trim()} (${email.value.trim()})`;
+  const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
   const btn = form.querySelector('.submit-btn');
   btn.classList.add('loading'); btn.disabled = true;
   setTimeout(()=>{
     btn.classList.remove('loading'); btn.disabled = false;
+    window.location.href = mailto;
     formMsg.classList.add('success');
-    formMsg.textContent = `Thanks — message received. I'll get back to you soon.`;
+    formMsg.textContent = `Opening your email app to send this to ${CONTACT_EMAIL} — if nothing happens, email me directly.`;
     form.reset();
-  }, 1100);
+  }, 400);
 });
