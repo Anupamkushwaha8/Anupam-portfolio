@@ -4,10 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anupam Kushwaha — Aspiring Software Developer</title>
-<meta name="description" content="Anupam Kushwaha — 3rd-year B.Tech CSE (AI & ML) student and aspiring software developer."><link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="description" content="Anupam Kushwaha — 3rd-year B.Tech CSE (AI & ML) student and aspiring software developer building with HTML, CSS, JavaScript, Java and Python.">
+<meta name="theme-color" content="#161409" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F4EA" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+
+<!-- Open Graph / social preview. Replace the og:url below once this is deployed. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Anupam Kushwaha — Aspiring Software Developer">
+<meta property="og:description" content="3rd-year B.Tech CSE (AI & ML) student and aspiring software developer building with HTML, CSS, JavaScript, Java and Python.">
+<meta property="og:image" content="photo.jpg">
+<meta property="og:url" content="https://anupamkushwaha8.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Anupam Kushwaha — Aspiring Software Developer">
+<meta name="twitter:description" content="3rd-year B.Tech CSE (AI & ML) student and aspiring software developer.">
+<meta name="twitter:image" content="photo.jpg">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  /* Applied before first paint to avoid a light/dark flash on load. */
+  (function(){
+    try {
+      var saved = localStorage.getItem('ak_theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
@@ -23,14 +50,14 @@
       <div class="orbit-wrapper" id="orbitWrapper"></div>
     </div>
     <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
-      <a href="resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost" id="resumeBtn" style="padding:10px 18px; box-shadow:none;">Resume</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to light theme" aria-pressed="false">◐</button>
+      <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="resumeBtn" style="padding:10px 18px; box-shadow:none;">Resume</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu"></div>
+<div class="mobile-menu" id="mobileMenu" inert></div>
 
 <main class="wrap">
 
@@ -53,8 +80,7 @@
       </div>
       <div class="hero-visual">
         <div class="hero-photo-frame" id="heroPhotoFrame">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <img id="heroPhoto" src="photo.jpg" alt="Photo of Anupam Kushwaha" onerror="this.remove(); document.getElementById('heroPhotoFrame').classList.add('no-photo');">
+          <img id="heroPhoto" src="photo.jpg" alt="Photo of Anupam Kushwaha" width="230" height="230" decoding="async" fetchpriority="high">
           <div class="placeholder">+ your photo</div>
         </div>
         <div class="spec-sheet">
@@ -75,19 +101,19 @@
       <h2 class="section-title">Engineer first, learner always.</h2>
     </div>
     <div class="about-grid">
-      <div class="about-frame reveal" id="aboutFrame"><span class="corner tl"></span><span class="corner br"></span><img id="aboutPhoto" src="photo.jpg" alt="Photo of Anupam Kushwaha" onerror="this.remove();"><div class="initials">AK</div></div>
-      <div class="about-text">
-        <div class="reveal">
-          <p>I'm a 3rd-year B.Tech student in Computer Science &amp; Engineering (AI &amp; ML), with hands-on experience in Java, Python, C, HTML and CSS. I like taking an interface from a blank page to something people actually enjoy using — responsive, fast, and free of rough edges.</p>
-          <p>I'm looking for an entry-level Software Developer role where I can put strong problem-solving skills and real project experience to work. Outside of coursework, I stay sharp by solving Data Structures &amp; Algorithms problems on LeetCode and keeping every project's source public on GitHub. When I'm not at the keyboard, fitness keeps me focused and disciplined.</p>
-        </div>
-        <div class="pill-row reveal">
+      <div class="about-text reveal">
+        <p>I'm a 3rd-year B.Tech student in Computer Science &amp; Engineering (AI &amp; ML), with hands-on experience in Java, Python, C, HTML and CSS. I like taking an interface from a blank page to something people actually enjoy using — responsive, fast, and free of rough edges.</p>
+        <p>I'm looking for an entry-level Software Developer role where I can put strong problem-solving skills and real project experience to work. Outside of coursework, I stay sharp by solving Data Structures &amp; Algorithms problems on LeetCode and keeping every project's source public on GitHub. When I'm not at the keyboard, fitness keeps me focused and disciplined.</p>
+        <div class="pill-row">
           <span class="pill">B.Tech CSE (AI/ML)</span>
           <span class="pill">Problem Solver</span>
           <span class="pill">Frontend Basics</span>
           <span class="pill">Open to SDE roles</span>
         </div>
-        <div class="stat-grid reveal">
+      </div>
+      <div class="about-highlights reveal">
+        <div class="tag-label" style="margin-bottom:16px;">At a glance</div>
+        <div class="stat-grid about-stat-grid">
           <div class="stat"><div class="num">2028</div><div class="label">Expected Graduation</div></div>
           <div class="stat"><div class="num">2+</div><div class="label">Projects Built</div></div>
           <div class="stat"><div class="num">5</div><div class="label">Languages &amp; Tools</div></div>
@@ -214,7 +240,7 @@
 
 </main>
 
-<div class="modal-overlay" id="projectModalOverlay">
+<div class="modal-overlay" id="projectModalOverlay" inert>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
     <div class="modal-head">
       <span id="projectModalTitle">Add an External Project</span>
